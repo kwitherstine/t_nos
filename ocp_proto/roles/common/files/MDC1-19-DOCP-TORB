@@ -1,0 +1,88 @@
+# TORB:
+# cumulus@MDC1-19-DOCP-TORB$ cat /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5), ifup(8)
+#
+# Please see /usr/share/doc/python-ifupdown2/examples/ for examples
+#
+#
+ 
+# The loopback network interface
+auto lo
+iface lo inet loopback
+ 
+# The primary network interface
+# for vagrant only, commenting out eth0 or it crashes
+auto eth0
+iface eth0 inet dhcp
+#iface eth0 inet static
+#        address 10.5.16.12
+#        netmask 255.255.255.0
+#        gateway 10.5.16.1
+ 
+ 
+ 
+# Bridges / VLANs
+#------------------
+ 
+auto bridge
+iface bridge
+        bridge-vlan-aware yes
+        bridge-vids 202 203 204 205 206
+        bridge-ports swp37 swp47 swp49 swp50
+        bridge-stp on
+        bridge-pvid 202
+ 
+auto bridge.202
+iface bridge.202
+        address 10.5.17.12/24
+        gateway 10.5.17.1
+ 
+auto bridge.203
+iface bridge.203
+ 
+auto bridge.204
+iface bridge.204
+ 
+auto bridge.205
+iface bridge.205
+        address 10.5.20.12/24
+        gateway 10.5.20.1
+ 
+auto bridge.206
+iface bridge.206
+ 
+ 
+ 
+# Interfaces
+#-------------
+ 
+#
+# DOCP-1 enp1s0f1               Fuel Server
+auto swp37
+iface swp37
+#       bridge-access 202
+        bridge-pvid 202
+ 
+# swp47 cabled to MDC1-19-DOCP-TORA swp47
+auto swp47
+iface swp47
+        bridge-vids 202 203 204 205 206
+ 
+# swp49 cabled to MDC1-19-OCP-SPINEA swp30
+auto swp49
+iface swp49
+        bridge-vids 202 203 204 205 206
+        bridge-pvid 1
+#iface swp49 inet static
+#        address 10.5.255.22
+#        netmask 255.255.255.252
+ 
+# swp50 cabled to MDC1-19-OCP-SPINEB swp30
+auto swp50
+iface swp50
+        bridge-vids 202 203 204 205 206
+        bridge-pvid 1
+#iface swp50 inet static
+#        address 10.5.255.30
+#        netmask 255.255.255.252

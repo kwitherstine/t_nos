@@ -1,0 +1,95 @@
+# TORA:
+# root@MDC1-19-DOCP-TORA:~# cat /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5), ifup(8)
+#
+# Please see /usr/share/doc/python-ifupdown2/examples/ for examples
+#
+#
+ 
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# adding for vagrant only, if not all VM communication is cut off on networking reload
+auto vagrant
+iface vagrant inet dhcp
+ 
+# The primary network interface
+# for vagrant only, commenting out eth0 or it crashes
+auto eth0
+ iface eth0 inet dhcp
+#iface eth0 inet static
+#        address 10.5.16.11
+#        netmask 255.255.255.0
+#        gateway 10.5.16.1
+ 
+ 
+ 
+# Bridges / VLANs
+#------------------
+ 
+auto bridge
+iface bridge
+        bridge-vlan-aware yes
+        bridge-vids 203 204 205 206
+        bridge-ports swp37 swp47 swp48 swp49 swp50
+        bridge-stp on
+        bridge-pvid 202
+ 
+auto bridge.202
+iface bridge.202
+        address 10.5.17.11/24
+        gateway 10.5.17.1
+ 
+auto bridge.203
+iface bridge.203
+ 
+auto bridge.204
+iface bridge.204
+ 
+auto bridge.205
+iface bridge.205
+        address 10.5.20.11/24
+        gateway 10.5.20.1
+ 
+auto bridge.206
+iface bridge.206
+ 
+ 
+ 
+# Interfaces
+#-------------
+ 
+auto swp37
+iface swp37
+        bridge-pvid 202
+ 
+ 
+# swp47 cabled to MDC1-19-DOCP-TORB swp47
+auto swp47
+iface swp47
+        bridge-vids 202 203 204 205 206
+ 
+#swp48 cabled to MDC1-19-DOCP-BOR sfp1
+auto swp48
+iface swp48
+        bridge-vids 201 202 203 204 205 206
+ 
+# swp49 cabled to MDC1-19-OCP-SPINEA swp29
+auto swp49
+iface swp49
+        bridge-vids 202 203 204 205 206
+        bridge-pvid 1
+#iface swp49 inet static
+#        address 10.5.255.18
+#        netmask 255.255.255.252
+ 
+# swp50 cabled to MDC1-19-OCP-SPINEB swp29
+auto swp50
+iface swp50
+        bridge-vids 202 203 204 205 206
+        bridge-pvid 1
+#iface swp50 inet static
+#        address 10.5.255.26
+#        netmask 255.255.255.252

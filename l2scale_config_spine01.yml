@@ -1,0 +1,22 @@
+---
+- hosts: network
+  user: cumulus
+  become: yes
+  tasks:
+   - name: insert vlan 100 bridge configuration stanza in /etc/network/interfaces
+     blockinfile:
+       dest: /etc/network/interfaces
+       block: |
+         auto swp16s0.100
+         iface swp16s0.100
+
+         auto swp32.100
+         iface swp32.100
+
+         auto br-vlan100
+         iface br-vlan100
+         bridge-ports swp16s0.100 swp32.100
+         bridge-stp on
+
+   - name: ifreload to apply config
+     shell: sudo ifreload -a
