@@ -12,3 +12,5 @@ Other playbooks and items:
 * PTM, NTP Ansible playbooks
 * layer 2 network troubleshooting Ansible playbooks
 * Ansible playbooks to backup configurations, restore configurations and upgrade software
+
+ZTP directory has been added with sample scripts. The POC sub directory contains Layer 2 ONIE+ZTP L2 CLOS implement on startup. 
